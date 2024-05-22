@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("EDMonitor")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Monitor the Elite Dangerous Journal events")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("GrosGaming")]
 [assembly: AssemblyProduct("EDMonitor")]
-[assembly: AssemblyCopyright("Copyright ©GrosGaming 2018")]
+[assembly: AssemblyCopyright("Copyright ©Laftini 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,7 +32,7 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.24.143.176")]
-[assembly: AssemblyFileVersion("1.24.143.176")]
+[assembly: AssemblyVersion("1.24.143.178")]
+[assembly: AssemblyFileVersion("1.24.143.178")]
 
-[assembly: AssemblyInformationalVersion("1.24.143.176")]
+[assembly: AssemblyInformationalVersion("1.24.143.178")]
