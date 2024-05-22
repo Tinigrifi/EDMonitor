@@ -1128,7 +1128,10 @@ namespace EDMonitor.UserInterfaces
                         // File Header
                         case "Fileheader": logEvent = JsonConvert.DeserializeObject<Fileheader>(x); break;
                     }
-                    ToSpeech(logEvent);
+                    if (logEvent is NeedSpecialization)
+                    {
+                        ToSpeech(logEvent);
+                    }
                     JournalEventsTMP.Add(logEvent);
                 }
             });
@@ -1138,14 +1141,7 @@ namespace EDMonitor.UserInterfaces
         {
             SpeechSynthesizer synth = new SpeechSynthesizer();
             synth.SetOutputToDefaultAudioDevice();
-            if (logEvent.ToString().EndsWith(" >>>>>>>> NEED SPECIALIZATION <<<<<<<<"))
-            {
-                synth.SpeakAsync("WARNING ! " + logEvent.EventType + " event needs to be specialized.");
-            }
-            if (logEvent.ToString().EndsWith(" >>>>>>>> NEED IMPLEMENTATION <<<<<<<<"))
-            {
-                synth.SpeakAsync("WARNING ! " + logEvent.EventType + " event needs to be implemented.");
-            }
+            synth.SpeakAsync("WARNING ! " + logEvent.EventType + " event needs to be specialized.");
         }
 
         private void BackgroundWorkerFile_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
