@@ -540,12 +540,12 @@ namespace EDMonitor.UserInterfaces
         {
             long gain = 0;
             string description = "";
-            if (e is Bounty bounty) { gain = bounty.TotalReward ?? 0; description = "Bounty\n" + bounty.Description; }
-            if (e is CapShipBond capShipBond) { gain = capShipBond.Reward ?? 0; description = "Cap Ship Bond\n" + capShipBond.Description; }
-            if (e is CommunityGoalReward communityGoalReward) { gain = communityGoalReward.Reward ?? 0; description = "Community Goal Reward\n" + communityGoalReward.Description; }
-            if (e is DatalinkVoucher datalinkVoucher) { gain = datalinkVoucher.Reward ?? 0; description = "Datalink Voucher\n" + datalinkVoucher.Description; }
-            if (e is FactionKillBond factionKillBond) { gain = factionKillBond.Reward ?? 0; description = "Faction Kill Bond\n" + factionKillBond.Description; }
-            if (e is MarketSell marketSell) { gain = marketSell.TotalSale ?? 0; description = "Market Sell\n" + marketSell.Description; }
+            if (e is Bounty bounty) { gain = bounty.TotalReward ?? 0; description = "Bounty - " + bounty.Description; }
+            if (e is CapShipBond capShipBond) { gain = capShipBond.Reward ?? 0; description = "Cap Ship Bond - " + capShipBond.Description; }
+            if (e is CommunityGoalReward communityGoalReward) { gain = communityGoalReward.Reward ?? 0; description = "Community Goal Reward - " + communityGoalReward.Description; }
+            if (e is DatalinkVoucher datalinkVoucher) { gain = datalinkVoucher.Reward ?? 0; description = "Datalink Voucher - " + datalinkVoucher.Description; }
+            if (e is FactionKillBond factionKillBond) { gain = factionKillBond.Reward ?? 0; description = "Faction Kill Bond - " + factionKillBond.Description; }
+            if (e is MarketSell marketSell) { gain = marketSell.TotalSale ?? 0; description = "Market Sell - " + marketSell.Description; }
             if (e is MissionCompleted missionCompleted)
             {
                 if (missionCompleted.Reward.HasValue)
@@ -556,14 +556,14 @@ namespace EDMonitor.UserInterfaces
                 {
                     gain = -(long)missionCompleted.Donated;
                 }
-                description = "Mission Completed\n" + missionCompleted.Description;
+                description = "Mission Completed - " + missionCompleted.Description;
             }
-            if (e is ModuleSell moduleSell) { gain = moduleSell.SellPrice ?? 0; description = "Module Sell\n" + moduleSell.Description; }
-            if (e is ModuleSellRemote moduleSellRemote) { gain = moduleSellRemote.SellPrice ?? 0; description = "Module Sell Remote\n" + moduleSellRemote.Description; }
-            if (e is MultiSellExplorationData multiSellExplorationData) { gain = multiSellExplorationData.TotalEarnings ?? 0; description = "Multi Sell Exploration Data\n" + multiSellExplorationData.Description; }
-            if (e is RedeemVoucher redeemVoucher) { gain = redeemVoucher.Amount ?? 0; description = "Redeem Voucher\n" + redeemVoucher.Description; }
-            if (e is SellExplorationData sellExplorationData) { gain = sellExplorationData.TotalEarnings ?? 0; description = "Sell Exploration Data\n" + sellExplorationData.Description; }
-            if (e is ShipyardSell shipyardSell) { gain = shipyardSell.ShipPrice ?? 0; description = "Shipyard Sell\n" + shipyardSell.Description; }
+            if (e is ModuleSell moduleSell) { gain = moduleSell.SellPrice ?? 0; description = "Module Sell - " + moduleSell.Description; }
+            if (e is ModuleSellRemote moduleSellRemote) { gain = moduleSellRemote.SellPrice ?? 0; description = "Module Sell Remote - " + moduleSellRemote.Description; }
+            if (e is MultiSellExplorationData multiSellExplorationData) { gain = multiSellExplorationData.TotalEarnings ?? 0; description = "Multi Sell Exploration Data - " + multiSellExplorationData.Description; }
+            if (e is RedeemVoucher redeemVoucher) { gain = redeemVoucher.Amount ?? 0; description = "Redeem Voucher - " + redeemVoucher.Description; }
+            if (e is SellExplorationData sellExplorationData) { gain = sellExplorationData.TotalEarnings ?? 0; description = "Sell Exploration Data - " + sellExplorationData.Description; }
+            if (e is ShipyardSell shipyardSell) { gain = shipyardSell.ShipPrice ?? 0; description = "Shipyard Sell - " + shipyardSell.Description; }
             Credits += gain;
             WalletItem walletItem = new WalletItem
             {
@@ -580,21 +580,21 @@ namespace EDMonitor.UserInterfaces
         {
             long lose = 0;
             string description = "";
-            if (e is BuyAmmo buyAmmo) { lose = buyAmmo.Cost ?? 0; description = "Buy Ammo\n"; }
-            if (e is BuyDrones buyDrones) { lose = buyDrones.TotalCost ?? 0; description = "Buy Drones\n" + buyDrones.Description; }
-            if (e is BuyExplorationData buyExplorationData) { lose = buyExplorationData.Cost ?? 0; description = "Buy Exploration Data\n" + buyExplorationData.Description; }
-            if (e is BuyTradeData buyTradeData) { lose = buyTradeData.Cost ?? 0; description = "Buy Trade Data\n" + buyTradeData.Description; }
-            if (e is FetchRemoteModule fetchRemoteModule) { lose = fetchRemoteModule.TransferCost ?? 0; description = "Fetch Remote Module\n" + fetchRemoteModule.Description; }
-            if (e is MarketBuy marketBuy) { lose = marketBuy.TotalCost ?? 0; description = "Market Buy\n" + marketBuy.Description; }
-            if (e is ModuleBuy moduleBuy) { lose = moduleBuy.BuyPrice ?? 0; Credits += moduleBuy.SellPrice ?? 0; description = "Module Buy\n" + moduleBuy.Description; }
-            if (e is PayFines payFines) { lose = payFines.Amount ?? 0; description = "Pay Fines\n" + payFines.Description; }
-            if (e is RefuelAll refuelAll) { lose = refuelAll.Cost ?? 0; description = "Refuel All\n"; }
-            if (e is Repair repair) { lose = repair.Cost ?? 0; description = "Repair\n" + repair.Description; }
-            if (e is RepairAll repairAll) { lose = repairAll.Cost ?? 0; description = "Repair All\n"; }
-            if (e is Resurrect resurrect) { lose = resurrect.Cost ?? 0; description = "Resurrect\n"; }
-            if (e is ShipyardBuy shipyardBuy) { lose = shipyardBuy.ShipPrice ?? 0; description = "Shipyard Buy\n" + shipyardBuy.Description; }
-            if (e is ShipyardTransfer shipyardTransfer) { lose = shipyardTransfer.TransferPrice ?? 0; description = "Shipyard Transfer\n" + shipyardTransfer.Description; }
-            if (e is SquadronCreated) { lose = 10000000; description = "Squadron Created\n"; }
+            if (e is BuyAmmo buyAmmo) { lose = buyAmmo.Cost ?? 0; description = "Buy Ammo"; }
+            if (e is BuyDrones buyDrones) { lose = buyDrones.TotalCost ?? 0; description = "Buy Drones - " + buyDrones.Description; }
+            if (e is BuyExplorationData buyExplorationData) { lose = buyExplorationData.Cost ?? 0; description = "Buy Exploration Data - " + buyExplorationData.Description; }
+            if (e is BuyTradeData buyTradeData) { lose = buyTradeData.Cost ?? 0; description = "Buy Trade Data - " + buyTradeData.Description; }
+            if (e is FetchRemoteModule fetchRemoteModule) { lose = fetchRemoteModule.TransferCost ?? 0; description = "Fetch Remote Module - " + fetchRemoteModule.Description; }
+            if (e is MarketBuy marketBuy) { lose = marketBuy.TotalCost ?? 0; description = "Market Buy - " + marketBuy.Description; }
+            if (e is ModuleBuy moduleBuy) { lose = moduleBuy.BuyPrice ?? 0; Credits += moduleBuy.SellPrice ?? 0; description = "Module Buy - " + moduleBuy.Description; }
+            if (e is PayFines payFines) { lose = payFines.Amount ?? 0; description = "Pay Fines - " + payFines.Description; }
+            if (e is RefuelAll refuelAll) { lose = refuelAll.Cost ?? 0; description = "Refuel All"; }
+            if (e is Repair repair) { lose = repair.Cost ?? 0; description = "Repair - " + repair.Description; }
+            if (e is RepairAll repairAll) { lose = repairAll.Cost ?? 0; description = "Repair All"; }
+            if (e is Resurrect resurrect) { lose = resurrect.Cost ?? 0; description = "Resurrect"; }
+            if (e is ShipyardBuy shipyardBuy) { lose = shipyardBuy.ShipPrice ?? 0; description = "Shipyard Buy - " + shipyardBuy.Description; }
+            if (e is ShipyardTransfer shipyardTransfer) { lose = shipyardTransfer.TransferPrice ?? 0; description = "Shipyard Transfer - " + shipyardTransfer.Description; }
+            if (e is SquadronCreated) { lose = 10000000; description = "Squadron Created"; }
             Credits -= lose;
             WalletItem walletItem = new WalletItem
             {
