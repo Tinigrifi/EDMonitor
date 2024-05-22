@@ -25,12 +25,13 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>elite.ico</ApplicationIcon>
@@ -374,7 +375,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="Resources\PTM55FT_0.TTF" />
-    <None Include="Resources\digital-7 %28mono%29.ttf" />
+    <EmbeddedResource Include="Resources\digital-7 %28mono%29.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="elite.ico" />
@@ -382,19 +383,9 @@
     <None Include="Resources\bullet_green.png" />
     <None Include="Resources\bullet_go.png" />
     <None Include="Resources\cross.png" />
-    <None Include="Resources\FiraCode-Bold.ttf" />
-    <None Include="Resources\FiraCode-VariableFont_wght.ttf" />
-    <None Include="Resources\Inconsolata-VariableFont_wdth,wght.ttf" />
-    <None Include="Resources\NovaMono-Regular.ttf" />
-    <None Include="Resources\OxygenMono-Regular.ttf" />
-    <None Include="Resources\RedditMono-VariableFont_wght.ttf" />
-    <None Include="Resources\ShareTechMono-Regular.ttf" />
-    <None Include="Resources\SyneMono-Regular.ttf" />
     <None Include="Resources\tick.png" />
     <None Include="Resources\NEUTRON_STAR.png" />
     <None Include="Resources\unknown.png" />
-    <None Include="Resources\VT323-Regular.ttf" />
-    <None Include="Resources\Wellfleet-Regular.ttf" />
     <None Include="Resources\WNC.png" />
     <None Include="Resources\WN.png" />
     <None Include="Resources\WC.png" />
