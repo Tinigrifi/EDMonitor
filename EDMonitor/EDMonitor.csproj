@@ -1,0 +1,436 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C46E5FEA-7FE0-401F-9B68-CB648BDE8185}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>EDMonitor</RootNamespace>
+    <AssemblyName>EDMonitor</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>elite.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ObjectListView, Version=2.9.1.1072, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4, processorArchitecture=MSIL">
+      <HintPath>..\packages\ObjectListView.Official.2.9.1\lib\net20\ObjectListView.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Speech" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Business\CargoItem.cs" />
+    <Compile Include="Business\CategoryMaterials.cs" />
+    <Compile Include="Business\Message.cs" />
+    <Compile Include="Business\RefinedMaterial.cs" />
+    <Compile Include="Business\Material.cs" />
+    <Compile Include="Business\MaterialsItems.cs" />
+    <Compile Include="Business\SolarSystem.cs" />
+    <Compile Include="Business\WalletItem.cs" />
+    <Compile Include="DataClasses\LogEvents\AppliedToSquadron.cs" />
+    <Compile Include="DataClasses\LogEvents\AsteroidCracked.cs" />
+    <Compile Include="DataClasses\LogEvents\CargoTransfer.cs" />
+    <Compile Include="DataClasses\LogEvents\CargoTransferJsonTypes\Transfer.cs" />
+    <Compile Include="DataClasses\LogEvents\CarrierDepositFuel.cs" />
+    <Compile Include="DataClasses\LogEvents\CodexEntry.cs" />
+    <Compile Include="DataClasses\LogEvents\CommitCrime.cs" />
+    <Compile Include="DataClasses\LogEvents\CommunityGoal.cs" />
+    <Compile Include="DataClasses\LogEvents\BuyAmmo.cs" />
+    <Compile Include="DataClasses\LogEvents\CargoDepot.cs" />
+    <Compile Include="DataClasses\LogEvents\BuyDrones.cs" />
+    <Compile Include="DataClasses\LogEvents\CommunityGoalDiscard.cs" />
+    <Compile Include="DataClasses\LogEvents\CommunityGoalJoin.cs" />
+    <Compile Include="DataClasses\LogEvents\CommunityGoalReward.cs" />
+    <Compile Include="DataClasses\LogEvents\CommunityGoalJsonTypes\CurrentGoal.cs" />
+    <Compile Include="DataClasses\LogEvents\CommunityGoalJsonTypes\TopTier.cs" />
+    <Compile Include="DataClasses\LogEvents\CrimeVictim.cs" />
+    <Compile Include="DataClasses\LogEvents\DatalinkScan.cs" />
+    <Compile Include="DataClasses\LogEvents\DatalinkVoucher.cs" />
+    <Compile Include="DataClasses\LogEvents\DataScanned.cs" />
+    <Compile Include="DataClasses\LogEvents\DockedJsonTypes\StationFaction.cs" />
+    <Compile Include="DataClasses\LogEvents\DockFighter.cs" />
+    <Compile Include="DataClasses\LogEvents\DockSRV.cs" />
+    <Compile Include="DataClasses\LogEvents\EngineerContribution.cs" />
+    <Compile Include="DataClasses\LogEvents\EngineerCraft.cs" />
+    <Compile Include="DataClasses\LogEvents\EngineerCraftJsonTypes\Ingredient.cs" />
+    <Compile Include="DataClasses\LogEvents\EngineerCraftJsonTypes\Modifier.cs" />
+    <Compile Include="DataClasses\LogEvents\EngineerProgress.cs" />
+    <Compile Include="DataClasses\LogEvents\EngineerProgressJsonTypes\Engineer.cs" />
+    <Compile Include="DataClasses\LogEvents\FetchRemoteModule.cs" />
+    <Compile Include="DataClasses\LogEvents\Friends.cs" />
+    <Compile Include="DataClasses\LogEvents\FSDJumpJsonTypes\ActiveState.cs" />
+    <Compile Include="DataClasses\LogEvents\FSDJumpJsonTypes\SystemFaction.cs" />
+    <Compile Include="DataClasses\LogEvents\FSDTarget.cs" />
+    <Compile Include="DataClasses\LogEvents\FSSAllBodiesFound.cs" />
+    <Compile Include="DataClasses\LogEvents\FSSDiscoveryScan.cs" />
+    <Compile Include="DataClasses\LogEvents\FSSSignalDiscovered.cs" />
+    <Compile Include="DataClasses\LogEvents\FuelScoop.cs" />
+    <Compile Include="DataClasses\LogEvents\InvitedToSquadron.cs" />
+    <Compile Include="DataClasses\LogEvents\JetConeBoost.cs" />
+    <Compile Include="DataClasses\LogEvents\LaunchDrone.cs" />
+    <Compile Include="DataClasses\LogEvents\LaunchFighter.cs" />
+    <Compile Include="DataClasses\LogEvents\LaunchSRV.cs" />
+    <Compile Include="DataClasses\LogEvents\LoadoutJsonTypes\Engineering.cs" />
+    <Compile Include="DataClasses\LogEvents\LoadoutJsonTypes\FuelCapacity.cs" />
+    <Compile Include="DataClasses\LogEvents\LoadoutJsonTypes\Modifier.cs" />
+    <Compile Include="DataClasses\LogEvents\LocationJsonTypes\ActiveState.cs" />
+    <Compile Include="DataClasses\LogEvents\LocationJsonTypes\StationEconomy.cs" />
+    <Compile Include="DataClasses\LogEvents\LocationJsonTypes\StationFaction.cs" />
+    <Compile Include="DataClasses\LogEvents\LocationJsonTypes\SystemFaction.cs" />
+    <Compile Include="DataClasses\LogEvents\Market.cs" />
+    <Compile Include="DataClasses\LogEvents\MarketBuy.cs" />
+    <Compile Include="DataClasses\LogEvents\EjectCargo.cs" />
+    <Compile Include="DataClasses\LogEvents\CollectCargo.cs" />
+    <Compile Include="DataClasses\LogEvents\BuyTradeData.cs" />
+    <Compile Include="DataClasses\LogEvents\BuyExplorationData.cs" />
+    <Compile Include="DataClasses\LogEvents\BountyJsonTypes\BountyReward.cs" />
+    <Compile Include="DataClasses\LogEvents\MarketSell.cs" />
+    <Compile Include="DataClasses\LogEvents\MaterialTrade.cs" />
+    <Compile Include="DataClasses\LogEvents\MaterialTradeJsonTypes\Paid.cs" />
+    <Compile Include="DataClasses\LogEvents\MaterialTradeJsonTypes\Received.cs" />
+    <Compile Include="DataClasses\LogEvents\MiningRefined.cs" />
+    <Compile Include="DataClasses\LogEvents\MissionAbandoned.cs" />
+    <Compile Include="DataClasses\LogEvents\MissionAccepted.cs" />
+    <Compile Include="DataClasses\LogEvents\MissionCompleted.cs" />
+    <Compile Include="DataClasses\LogEvents\MissionCompletedJsonTypes\Effect.cs" />
+    <Compile Include="DataClasses\LogEvents\MissionCompletedJsonTypes\FactionEffect.cs" />
+    <Compile Include="DataClasses\LogEvents\MissionCompletedJsonTypes\Influence.cs" />
+    <Compile Include="DataClasses\LogEvents\MissionRedirected.cs" />
+    <Compile Include="DataClasses\LogEvents\ModuleBuy.cs" />
+    <Compile Include="DataClasses\LogEvents\ModuleInfo.cs" />
+    <Compile Include="DataClasses\LogEvents\ModuleRetrieve.cs" />
+    <Compile Include="DataClasses\LogEvents\ModuleSell.cs" />
+    <Compile Include="DataClasses\LogEvents\ModuleSellRemote.cs" />
+    <Compile Include="DataClasses\LogEvents\ModuleStore.cs" />
+    <Compile Include="DataClasses\LogEvents\ModuleSwap.cs" />
+    <Compile Include="DataClasses\LogEvents\MultiSellExplorationData.cs" />
+    <Compile Include="DataClasses\LogEvents\MultiSellExplorationDataJsonTypes\Discovered.cs" />
+    <Compile Include="DataClasses\LogEvents\NavRoute.cs" />
+    <Compile Include="DataClasses\LogEvents\NavRouteClear.cs" />
+    <Compile Include="DataClasses\LogEvents\Outfitting.cs" />
+    <Compile Include="DataClasses\LogEvents\PayFines.cs" />
+    <Compile Include="DataClasses\LogEvents\Promotion.cs" />
+    <Compile Include="DataClasses\LogEvents\ProspectedAsteroid.cs" />
+    <Compile Include="DataClasses\LogEvents\ProspectedAsteroidJsonTypes\Material.cs" />
+    <Compile Include="DataClasses\LogEvents\RedeemVoucher.cs" />
+    <Compile Include="DataClasses\LogEvents\RedeemVoucherJsonTypes\Faction.cs" />
+    <Compile Include="DataClasses\LogEvents\RefuelAll.cs" />
+    <Compile Include="DataClasses\LogEvents\Repair.cs" />
+    <Compile Include="DataClasses\LogEvents\RepairAll.cs" />
+    <Compile Include="DataClasses\LogEvents\ReservoirReplenished.cs" />
+    <Compile Include="DataClasses\LogEvents\Resurrect.cs" />
+    <Compile Include="DataClasses\LogEvents\SAAScanComplete.cs" />
+    <Compile Include="DataClasses\LogEvents\SAASignalsFound.cs" />
+    <Compile Include="DataClasses\LogEvents\SAASignalsFoundJsonTypes\Signal.cs" />
+    <Compile Include="DataClasses\LogEvents\ScanBaryCentre.cs" />
+    <Compile Include="DataClasses\LogEvents\Scanned.cs" />
+    <Compile Include="DataClasses\LogEvents\Screenshot.cs" />
+    <Compile Include="DataClasses\LogEvents\SellExplorationData.cs" />
+    <Compile Include="DataClasses\LogEvents\NavBeaconScan.cs" />
+    <Compile Include="DataClasses\LogEvents\MaterialCollected.cs" />
+    <Compile Include="DataClasses\LogEvents\MaterialDiscovered.cs" />
+    <Compile Include="DataClasses\LogEvents\MaterialDiscarded.cs" />
+    <Compile Include="DataClasses\LogEvents\Scan.cs" />
+    <Compile Include="DataClasses\LogEvents\DiscoveryScan.cs" />
+    <Compile Include="DataClasses\LogEvents\PVPKill.cs" />
+    <Compile Include="DataClasses\LogEvents\Interdicted.cs" />
+    <Compile Include="DataClasses\LogEvents\HullDamage.cs" />
+    <Compile Include="DataClasses\LogEvents\FactionKillBond.cs" />
+    <Compile Include="DataClasses\LogEvents\Cargo.cs" />
+    <Compile Include="DataClasses\LogEvents\ApproachBody.cs" />
+    <Compile Include="DataClasses\LogEvents\ApproachSettlement.cs" />
+    <Compile Include="DataClasses\LogEvents\Bounty.cs" />
+    <Compile Include="DataClasses\LogEvents\CapShipBond.cs" />
+    <Compile Include="DataClasses\LogEvents\EscapeInterdiction.cs" />
+    <Compile Include="DataClasses\LogEvents\Died.cs" />
+    <Compile Include="DataClasses\LogEvents\DiedJsonTypes\Killer.cs" />
+    <Compile Include="DataClasses\LogEvents\HeatDamage.cs" />
+    <Compile Include="DataClasses\LogEvents\HeatWarning.cs" />
+    <Compile Include="DataClasses\LogEvents\Interdiction.cs" />
+    <Compile Include="DataClasses\LogEvents\ScanJsonTypes\AtmosphereComposition.cs" />
+    <Compile Include="DataClasses\LogEvents\ScanJsonTypes\Composition.cs" />
+    <Compile Include="DataClasses\LogEvents\ScanJsonTypes\Material.cs" />
+    <Compile Include="DataClasses\LogEvents\ScanJsonTypes\Parent.cs" />
+    <Compile Include="DataClasses\LogEvents\ScanJsonTypes\Ring.cs" />
+    <Compile Include="DataClasses\LogEvents\SendText.cs" />
+    <Compile Include="DataClasses\LogEvents\SetUserShipName.cs" />
+    <Compile Include="DataClasses\LogEvents\ShieldState.cs" />
+    <Compile Include="DataClasses\LogEvents\ShipLocker.cs" />
+    <Compile Include="DataClasses\LogEvents\ShipLockerJsonTypes\ShipLockerObjects.cs" />
+    <Compile Include="DataClasses\LogEvents\ShipTargeted.cs" />
+    <Compile Include="DataClasses\LogEvents\Shipyard.cs" />
+    <Compile Include="DataClasses\LogEvents\ShipyardBuy.cs" />
+    <Compile Include="DataClasses\LogEvents\ShipyardNew.cs" />
+    <Compile Include="DataClasses\LogEvents\ShipyardSell.cs" />
+    <Compile Include="DataClasses\LogEvents\ShipyardSwap.cs" />
+    <Compile Include="DataClasses\LogEvents\ShipyardTransfer.cs" />
+    <Compile Include="DataClasses\LogEvents\SquadronCreated.cs" />
+    <Compile Include="DataClasses\LogEvents\SquadronDemotion.cs" />
+    <Compile Include="DataClasses\LogEvents\SquadronStartup.cs" />
+    <Compile Include="DataClasses\LogEvents\StatisticsJsonTypes\MaterialTraderStats.cs" />
+    <Compile Include="DataClasses\LogEvents\StoredModules.cs" />
+    <Compile Include="DataClasses\LogEvents\StoredModulesJsonTypes\Item.cs" />
+    <Compile Include="DataClasses\LogEvents\StoredShips.cs" />
+    <Compile Include="DataClasses\LogEvents\StoredShipsJsonTypes\ShipsHere.cs" />
+    <Compile Include="DataClasses\LogEvents\StoredShipsJsonTypes\ShipsRemote.cs" />
+    <Compile Include="DataClasses\LogEvents\SupercruiseDestinationDrop.cs" />
+    <Compile Include="DataClasses\LogEvents\Synthesis.cs" />
+    <Compile Include="DataClasses\LogEvents\SynthesisJsonTypes\Material.cs" />
+    <Compile Include="DataClasses\LogEvents\TechnologyBroker.cs" />
+    <Compile Include="DataClasses\LogEvents\TechnologyBrokerJsonTypes\Commodity.cs" />
+    <Compile Include="DataClasses\LogEvents\TechnologyBrokerJsonTypes\ItemsUnlocked.cs" />
+    <Compile Include="DataClasses\LogEvents\TechnologyBrokerJsonTypes\Material.cs" />
+    <Compile Include="DataClasses\LogEvents\UnderAttack.cs" />
+    <Compile Include="DataClasses\LogEvents\SRVDestroyed.cs" />
+    <Compile Include="DataClasses\LogEvents\USSDrop.cs" />
+    <Compile Include="DataClasses\LogEvents\VehicleSwitch.cs" />
+    <Compile Include="DataClasses\LogEvents\WingAdd.cs" />
+    <Compile Include="DataClasses\LogEvents\WingInvite.cs" />
+    <Compile Include="DataClasses\LogEvents\WingJoin.cs" />
+    <Compile Include="DataClasses\LogEvents\WingLeave.cs" />
+    <Compile Include="DataClasses\LogEvents\_NeedSpecialization.cs" />
+    <Compile Include="DataClasses\LogEvents\Undocked.cs" />
+    <Compile Include="DataClasses\LogEvents\SupercruiseEntry.cs" />
+    <Compile Include="DataClasses\LogEvents\StartJump.cs" />
+    <Compile Include="DataClasses\LogEvents\Location.cs" />
+    <Compile Include="DataClasses\LogEvents\Liftoff.cs" />
+    <Compile Include="DataClasses\LogEvents\LeaveBody.cs" />
+    <Compile Include="DataClasses\LogEvents\FSDJump.cs" />
+    <Compile Include="DataClasses\LogEvents\DockingCancelled.cs" />
+    <Compile Include="DataClasses\LogEvents\DockingTimeout.cs" />
+    <Compile Include="DataClasses\LogEvents\DockingDenied.cs" />
+    <Compile Include="DataClasses\LogEvents\DockingGranted.cs" />
+    <Compile Include="DataClasses\LogEvents\DockingRequested.cs" />
+    <Compile Include="DataClasses\LogEvents\FSDJumpJsonTypes\Faction.cs" />
+    <Compile Include="DataClasses\LogEvents\FSDJumpJsonTypes\RecoveringState.cs" />
+    <Compile Include="DataClasses\LogEvents\LocationJsonTypes\Faction.cs" />
+    <Compile Include="DataClasses\LogEvents\LocationJsonTypes\PendingState.cs" />
+    <Compile Include="DataClasses\LogEvents\LocationJsonTypes\RecoveringState.cs" />
+    <Compile Include="DataClasses\LogEvents\Shutdown.cs" />
+    <Compile Include="DataClasses\LogEvents\ReceiveText.cs" />
+    <Compile Include="DataClasses\LogEvents\Docked.cs" />
+    <Compile Include="DataClasses\LogEvents\DockedJsonTypes\StationEconomy.cs" />
+    <Compile Include="DataClasses\LogEvents\Music.cs" />
+    <Compile Include="DataClasses\LogEvents\Statistics.cs" />
+    <Compile Include="DataClasses\LogEvents\Reputation.cs" />
+    <Compile Include="DataClasses\LogEvents\Progress.cs" />
+    <Compile Include="DataClasses\LogEvents\Powerplay.cs" />
+    <Compile Include="DataClasses\LogEvents\Passengers.cs" />
+    <Compile Include="DataClasses\LogEvents\LoadGame.cs" />
+    <Compile Include="DataClasses\LogEvents\NewCommander.cs" />
+    <Compile Include="DataClasses\LogEvents\Missions.cs" />
+    <Compile Include="DataClasses\LogEvents\Materials.cs" />
+    <Compile Include="DataClasses\LogEvents\Loadout.cs" />
+    <Compile Include="DataClasses\LogEvents\CargoJsonTypes\Inventory.cs" />
+    <Compile Include="DataClasses\LogEvents\ClearSavedGame.cs" />
+    <Compile Include="DataClasses\LogEvents\Fileheader.cs" />
+    <Compile Include="DataClasses\LogEvents\LoadoutJsonTypes\Module.cs" />
+    <Compile Include="DataClasses\LogEvents\LogEvent.cs" />
+    <Compile Include="DataClasses\LogEvents\Commander.cs" />
+    <Compile Include="DataClasses\LogEvents\MaterialsJsonTypes\Encoded.cs" />
+    <Compile Include="DataClasses\LogEvents\MaterialsJsonTypes\Manufactured.cs" />
+    <Compile Include="DataClasses\LogEvents\MaterialsJsonTypes\Raw.cs" />
+    <Compile Include="DataClasses\LogEvents\MissionsJsonTypes\Active.cs" />
+    <Compile Include="DataClasses\LogEvents\MissionsJsonTypes\Complete.cs" />
+    <Compile Include="DataClasses\LogEvents\MissionsJsonTypes\Failed.cs" />
+    <Compile Include="DataClasses\LogEvents\PassengersJsonTypes\Passenger.cs" />
+    <Compile Include="DataClasses\LogEvents\Rank.cs" />
+    <Compile Include="DataClasses\LogEvents\StatisticsJsonTypes\BankAccount.cs" />
+    <Compile Include="DataClasses\LogEvents\StatisticsJsonTypes\Combat.cs" />
+    <Compile Include="DataClasses\LogEvents\StatisticsJsonTypes\Crafting.cs" />
+    <Compile Include="DataClasses\LogEvents\StatisticsJsonTypes\Crew.cs" />
+    <Compile Include="DataClasses\LogEvents\StatisticsJsonTypes\Crime.cs" />
+    <Compile Include="DataClasses\LogEvents\StatisticsJsonTypes\Exploration.cs" />
+    <Compile Include="DataClasses\LogEvents\StatisticsJsonTypes\Mining.cs" />
+    <Compile Include="DataClasses\LogEvents\StatisticsJsonTypes\Multicrew.cs" />
+    <Compile Include="DataClasses\LogEvents\StatisticsJsonTypes\Passengers.cs" />
+    <Compile Include="DataClasses\LogEvents\StatisticsJsonTypes\SearchAndRescue.cs" />
+    <Compile Include="DataClasses\LogEvents\StatisticsJsonTypes\Smuggling.cs" />
+    <Compile Include="DataClasses\LogEvents\StatisticsJsonTypes\Trading.cs" />
+    <Compile Include="DataClasses\LogEvents\SupercruiseExit.cs" />
+    <Compile Include="DataClasses\LogEvents\Touchdown.cs" />
+    <Compile Include="DataClasses\LogEvents\FighterDestroyed.cs" />
+    <Compile Include="Helpers\IntExtension.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserInterfaces\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserInterfaces\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterfaces\UCSystemRoute.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserInterfaces\UCSystemRoute.Designer.cs">
+      <DependentUpon>UCSystemRoute.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="UserInterfaces\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserInterfaces\UCSystemRoute.resx">
+      <DependentUpon>UCSystemRoute.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Resources\PTM55FT_0.TTF" />
+    <None Include="Resources\digital-7 %28mono%29.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="elite.ico" />
+    <None Include="Resources\bullet_red.png" />
+    <None Include="Resources\bullet_green.png" />
+    <None Include="Resources\bullet_go.png" />
+    <None Include="Resources\cross.png" />
+    <None Include="Resources\FiraCode-Bold.ttf" />
+    <None Include="Resources\FiraCode-VariableFont_wght.ttf" />
+    <None Include="Resources\Inconsolata-VariableFont_wdth,wght.ttf" />
+    <None Include="Resources\NovaMono-Regular.ttf" />
+    <None Include="Resources\OxygenMono-Regular.ttf" />
+    <None Include="Resources\RedditMono-VariableFont_wght.ttf" />
+    <None Include="Resources\ShareTechMono-Regular.ttf" />
+    <None Include="Resources\SyneMono-Regular.ttf" />
+    <None Include="Resources\tick.png" />
+    <None Include="Resources\NEUTRON_STAR.png" />
+    <None Include="Resources\unknown.png" />
+    <None Include="Resources\VT323-Regular.ttf" />
+    <None Include="Resources\Wellfleet-Regular.ttf" />
+    <None Include="Resources\WNC.png" />
+    <None Include="Resources\WN.png" />
+    <None Include="Resources\WC.png" />
+    <None Include="Resources\W.png" />
+    <None Include="Resources\TTS.png" />
+    <None Include="Resources\T.png" />
+    <None Include="Resources\SUPERMASSIVE_BLACK_HOLE.png" />
+    <None Include="Resources\S.png" />
+    <None Include="Resources\O.png" />
+    <None Include="Resources\MS.png" />
+    <None Include="Resources\M.png" />
+    <None Include="Resources\L.png" />
+    <None Include="Resources\K.png" />
+    <None Include="Resources\G.png" />
+    <None Include="Resources\F.png" />
+    <None Include="Resources\DQ.png" />
+    <None Include="Resources\DCV.png" />
+    <None Include="Resources\DC.png" />
+    <None Include="Resources\DBV.png" />
+    <None Include="Resources\DB.png" />
+    <None Include="Resources\DAZ.png" />
+    <None Include="Resources\DAV.png" />
+    <None Include="Resources\DAB.png" />
+    <None Include="Resources\DA.png" />
+    <None Include="Resources\CN.png" />
+    <None Include="Resources\CJ.png" />
+    <None Include="Resources\C.png" />
+    <None Include="Resources\BLACK_HOLE.png" />
+    <None Include="Resources\B.png" />
+    <None Include="Resources\AE_BE.png" />
+    <None Include="Resources\A.png" />
+    <None Include="Resources\Y.png" />
+    <None Include="Resources\WO.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
