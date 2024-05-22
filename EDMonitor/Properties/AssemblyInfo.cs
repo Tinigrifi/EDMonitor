@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("EDMonitor")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("GrosGaming")]
 [assembly: AssemblyProduct("EDMonitor")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyCopyright("Copyright ©GrosGaming 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,7 +32,7 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.24.58.173")]
-[assembly: AssemblyFileVersion("1.24.58.173")]
+[assembly: AssemblyVersion("1.24.143.176")]
+[assembly: AssemblyFileVersion("1.24.143.176")]
 
-[assembly: AssemblyInformationalVersion("0.24.58.1")]
+[assembly: AssemblyInformationalVersion("1.24.143.176")]
