@@ -1223,40 +1223,6 @@ namespace EDMonitor.UserInterfaces
             ChangeColors();
         }
 
-        private int LoadColorFromSetting(string value, string setting)
-        {
-            if (value != null)
-            {
-                return int.Parse(value);
-            }
-            else
-            {
-                switch (setting)
-                {
-                    case "BackgroundR":
-                        return 48;
-
-                    case "BackgroundG":
-                        return 48;
-
-                    case "BackgroundB":
-                        return 48;
-
-                    case "ForegroundR":
-                        return 5;
-
-                    case "ForegroundG":
-                        return 119;
-
-                    case "ForegroundB":
-                        return 210;
-
-                    default:
-                        return 0;
-                }
-            }
-        }
-
         private void SaveSetting(Configuration configuration, string setting, string value)
         {
             if (configuration.AppSettings.Settings[setting] != null)
@@ -1277,7 +1243,17 @@ namespace EDMonitor.UserInterfaces
             }
             else
             {
-                return null;
+                switch (setting)
+                {
+                    case "Background":
+                        SaveSetting(configuration, "Background", "#303030");
+                        return "#303030";
+                    case "Foreground":
+                        SaveSetting(configuration, "Background", "#0577D2");
+                        return "#0577D2";
+                    default:
+                        return null;
+                }
             }
         }
 
