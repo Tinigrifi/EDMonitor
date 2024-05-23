@@ -9,7 +9,7 @@ namespace EDMonitor.DataClasses.LogEvents
         public string SystemName { get; set; }
 
         [JsonProperty("SystemAddress")]
-        public long SystemAddress { get; set; }
+        public long? SystemAddress { get; set; }
 
         [JsonProperty("Count")]
         public int Count { get; set; }

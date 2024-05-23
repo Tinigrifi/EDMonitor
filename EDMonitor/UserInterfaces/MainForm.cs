@@ -913,7 +913,7 @@ namespace EDMonitor.UserInterfaces
                         case "DiscoveryScan": logEvent = JsonConvert.DeserializeObject<DiscoveryScan>(x); break;
                         case "Scan": logEvent = JsonConvert.DeserializeObject<Scan>(x); break;
                         case "FSSAllBodiesFound": logEvent = JsonConvert.DeserializeObject<FSSAllBodiesFound>(x); break;
-                        //case "FSSBodySignals": logEvent = JsonConvert.DeserializeObject<FSSBodySignals>(x); break;
+                        case "FSSBodySignals": logEvent = JsonConvert.DeserializeObject<FSSBodySignals>(x); break;
                         case "FSSDiscoveryScan": logEvent = JsonConvert.DeserializeObject<FSSDiscoveryScan>(x); break;
                         case "FSSSignalDiscovered": logEvent = JsonConvert.DeserializeObject<FSSSignalDiscovered>(x); break;
                         case "MaterialCollected": logEvent = JsonConvert.DeserializeObject<MaterialCollected>(x); break;
@@ -1128,10 +1128,10 @@ namespace EDMonitor.UserInterfaces
                         // File Header
                         case "Fileheader": logEvent = JsonConvert.DeserializeObject<Fileheader>(x); break;
                     }
-                    if (logEvent is NeedSpecialization)
-                    {
-                        ToSpeech(logEvent);
-                    }
+                    //if (logEvent is NeedSpecialization)
+                    //{
+                    //    ToSpeech(logEvent);
+                    //}
                     JournalEventsTMP.Add(logEvent);
                 }
             });

@@ -143,6 +143,8 @@
     <Compile Include="DataClasses\LogEvents\FSDJumpJsonTypes\SystemFaction.cs" />
     <Compile Include="DataClasses\LogEvents\FSDTarget.cs" />
     <Compile Include="DataClasses\LogEvents\FSSAllBodiesFound.cs" />
+    <Compile Include="DataClasses\LogEvents\FSSAllBodySignalsJsonTypes\Signal.cs" />
+    <Compile Include="DataClasses\LogEvents\FSSBodySignals.cs" />
     <Compile Include="DataClasses\LogEvents\FSSDiscoveryScan.cs" />
     <Compile Include="DataClasses\LogEvents\FSSSignalDiscovered.cs" />
     <Compile Include="DataClasses\LogEvents\FuelScoop.cs" />

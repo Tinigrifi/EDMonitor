@@ -8,7 +8,7 @@ namespace EDMonitor.UserInterfaces
         public UCSystemRoute(int cpt, Business.SolarSystem system, string currentSystem)
         {
             InitializeComponent();
-            LabelStarSystem.Text = "[" + cpt.ToString("00") + "] " + system.StarSystem;
+            LabelStarSystem.Text = "[" + cpt.ToString("00") + "] " + system.StarSystem.ToUpper();
             switch (system.StarClass)
             {
                 case "K":
