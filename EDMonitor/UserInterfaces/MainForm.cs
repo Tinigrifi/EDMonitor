@@ -15,6 +15,7 @@ using System.Reflection;
 using System.Speech.Synthesis;
 using System.Threading;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
 namespace EDMonitor.UserInterfaces
 {
@@ -712,7 +713,7 @@ namespace EDMonitor.UserInterfaces
                 dynamic navRoute = JsonConvert.DeserializeObject(json);
                 foreach (dynamic item in navRoute.Route)
                 {
-                    Route.Add(new Business.SolarSystem { StarSystem = (string)item.StarSystem, StarClass = (string)item.StarClass });
+                    Route.Add(new SolarSystem { StarSystem = (string)item.StarSystem, StarClass = (string)item.StarClass });
                 }
             }
             DrawRoute();
@@ -1193,12 +1194,10 @@ namespace EDMonitor.UserInterfaces
         private void SaveColorInConfig(Color colorBackground, Color colorForeground)
         {
             Configuration configuration = ConfigurationManager.OpenExeConfiguration(Assembly.GetExecutingAssembly().Location);
-            SaveSetting(configuration, "BackgroundR", colorBackground.R.ToString());
-            SaveSetting(configuration, "BackgroundG", colorBackground.G.ToString());
-            SaveSetting(configuration, "BackgroundB", colorBackground.B.ToString());
-            SaveSetting(configuration, "ForegroundR", colorForeground.R.ToString());
-            SaveSetting(configuration, "ForegroundG", colorForeground.G.ToString());
-            SaveSetting(configuration, "ForegroundB", colorForeground.B.ToString());
+            string backgroundColorHex = "#" + colorBackground.R.ToString("X").PadLeft(2, '0') + colorBackground.G.ToString("X").PadLeft(2, '0') + colorBackground.B.ToString("X").PadLeft(2, '0');
+            SaveSetting(configuration, "Background", backgroundColorHex);
+            string foregroundColorHex = "#" + colorForeground.R.ToString("X").PadLeft(2, '0') + colorForeground.G.ToString("X").PadLeft(2, '0') + colorForeground.B.ToString("X").PadLeft(2, '0');
+            SaveSetting(configuration, "Foreground", foregroundColorHex);
             configuration.Save();
             ConfigurationManager.RefreshSection("appSettings");
         }
@@ -1206,20 +1205,20 @@ namespace EDMonitor.UserInterfaces
         private void LoadColorFromConfig()
         {
             Configuration configuration = ConfigurationManager.OpenExeConfiguration(Assembly.GetExecutingAssembly().Location);
-            int backgroundR = LoadColorFromSetting(LoadSetting(configuration, "BackgroundR"), "BackgroundR");
-            int backgroundG = LoadColorFromSetting(LoadSetting(configuration, "BackgroundG"), "BackgroundG");
-            int backgroundB = LoadColorFromSetting(LoadSetting(configuration, "BackgroundB"), "BackgroundB");
-            int foregroundR = LoadColorFromSetting(LoadSetting(configuration, "ForegroundR"), "ForegroundR");
-            int foregroundG = LoadColorFromSetting(LoadSetting(configuration, "ForegroundG"), "ForegroundG");
-            int foregroundB = LoadColorFromSetting(LoadSetting(configuration, "ForegroundB"), "ForegroundB");
+            string backgroundColor = LoadSetting(configuration, "Background").Remove(0, 1);
+            int backgroundR = int.Parse(backgroundColor.Substring(0, 2), NumberStyles.HexNumber);
+            int backgroundG = int.Parse(backgroundColor.Substring(2, 2), NumberStyles.HexNumber);
+            int backgroundB = int.Parse(backgroundColor.Substring(4, 2), NumberStyles.HexNumber);
+            string foregroundColor = LoadSetting(configuration, "Foreground").Remove(0, 1);
+            int foregroundR = int.Parse(foregroundColor.Substring(0, 2), NumberStyles.HexNumber);
+            int foregroundG = int.Parse(foregroundColor.Substring(2, 2), NumberStyles.HexNumber);
+            int foregroundB = int.Parse(foregroundColor.Substring(4, 2), NumberStyles.HexNumber);
             ColorBackground = Color.FromArgb(backgroundR, backgroundG, backgroundB);
             ColorForeground = Color.FromArgb(foregroundR, foregroundG, foregroundB);
-            SaveSetting(configuration, "BackgroundR", ColorBackground.R.ToString());
-            SaveSetting(configuration, "BackgroundG", ColorBackground.G.ToString());
-            SaveSetting(configuration, "BackgroundB", ColorBackground.B.ToString());
-            SaveSetting(configuration, "ForegroundR", ColorForeground.R.ToString());
-            SaveSetting(configuration, "ForegroundG", ColorForeground.G.ToString());
-            SaveSetting(configuration, "ForegroundB", ColorForeground.B.ToString());
+            string backgroundColorHex = "#" + backgroundR.ToString("X").PadLeft(2, '0') + backgroundG.ToString("X").PadLeft(2, '0') + backgroundB.ToString("X").PadLeft(2, '0');
+            SaveSetting(configuration, "Background", backgroundColorHex);
+            string foregroundColorHex = "#" + foregroundR.ToString("X").PadLeft(2, '0') + foregroundG.ToString("X").PadLeft(2, '0') + foregroundB.ToString("X").PadLeft(2, '0');
+            SaveSetting(configuration, "Foreground", foregroundColorHex);
             configuration.Save();
             ChangeColors();
         }
