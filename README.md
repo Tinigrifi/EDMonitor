@@ -6,4 +6,4 @@
 
 For the UI colors:
 
-![image](https://github.com/Tinigrifi/EDMonitor/assets/29105888/57631b91-c146-465a-9ef2-d017464655a3)
+![image](https://github.com/Tinigrifi/EDMonitor/assets/29105888/26700dd7-f77f-47a1-81ad-14745d014564)
