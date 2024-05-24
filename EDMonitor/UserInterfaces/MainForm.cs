@@ -15,7 +15,6 @@ using System.Reflection;
 using System.Speech.Synthesis;
 using System.Threading;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
 namespace EDMonitor.UserInterfaces
 {
@@ -400,6 +399,7 @@ namespace EDMonitor.UserInterfaces
                         case "RedeemVoucher":
                         case "SellExplorationData":
                         case "ShipyardSell":
+                        case "PayBounties":
                             GainCredits(e);
                             break;
 
@@ -418,6 +418,8 @@ namespace EDMonitor.UserInterfaces
                         case "ShipyardBuy":
                         case "ShipyardTransfer":
                         case "SquadronCreated":
+                        case "RefuelPartial":
+                        case "RestockVehicle":
                             SpendCredits(e);
                             break;
 
@@ -482,58 +484,67 @@ namespace EDMonitor.UserInterfaces
 
         private void ExchangeMaterials(LogEvent e)
         {
-            if (e is MaterialTrade MaterialTrade)
+            switch (e)
             {
-                Materials.Categories.ForEach(c =>
-                {
-                    c.Materials.ForEach(m2 =>
+                case MaterialTrade materialTrade:
+                    Materials.Categories.ForEach(c =>
                     {
-                        if (m2.Name == (string.IsNullOrEmpty(MaterialTrade.Received.MaterialLocalised) ? MaterialTrade.Received.Material : MaterialTrade.Received.MaterialLocalised))
+                        c.Materials.ForEach(m2 =>
                         {
-                            m2.Count -= (int)MaterialTrade.Paid.Quantity;
-                        }
+                            if (m2.Name == (string.IsNullOrEmpty(materialTrade.Received.MaterialLocalised) ? materialTrade.Received.Material : materialTrade.Received.MaterialLocalised))
+                            {
+                                m2.Count -= (int)materialTrade.Paid.Quantity;
+                            }
+                        });
                     });
-                });
-                Materials.Categories.ForEach(c =>
-                {
-                    c.Materials.ForEach(m2 =>
+                    Materials.Categories.ForEach(c =>
                     {
-                        if (m2.Name == MaterialTrade.Received.Material)
+                        c.Materials.ForEach(m2 =>
                         {
-                            AddMaterial(MaterialTrade.Received.Category, (string.IsNullOrEmpty(MaterialTrade.Received.MaterialLocalised) ? MaterialTrade.Received.Material : MaterialTrade.Received.MaterialLocalised), (int)MaterialTrade.Received.Quantity);
-                        }
+                            if (m2.Name == materialTrade.Received.Material)
+                            {
+                                AddMaterial(materialTrade.Received.Category, (string.IsNullOrEmpty(materialTrade.Received.MaterialLocalised) ? materialTrade.Received.Material : materialTrade.Received.MaterialLocalised), (int)materialTrade.Received.Quantity);
+                            }
+                        });
                     });
-                });
-                Materials.Sort();
-                TLVMaterials.SetObjects(Materials.Categories);
+                    Materials.Sort();
+                    TLVMaterials.SetObjects(Materials.Categories);
+                    break;
             }
         }
 
         private void SpendMaterials(LogEvent e)
         {
-            if (e is Synthesis Synthesis)
+            switch (e)
             {
-                Synthesis.Materials.ForEach(m =>
-                {
-                    Materials.Categories.ForEach(c =>
+                case Synthesis synthesis:
+                    synthesis.Materials.ForEach(m =>
                     {
-                        c.Materials.ForEach(m2 =>
+                        Materials.Categories.ForEach(c =>
                         {
-                            if (m2.Name == m.Name)
+                            c.Materials.ForEach(m2 =>
                             {
-                                m2.Count -= (int)m.Count;
-                            }
+                                if (m2.Name == m.Name)
+                                {
+                                    m2.Count -= (int)m.Count;
+                                }
+                            });
                         });
                     });
-                });
-                Materials.Sort();
-                TLVMaterials.SetObjects(Materials.Categories);
+                    Materials.Sort();
+                    TLVMaterials.SetObjects(Materials.Categories);
+                    break;
             }
         }
 
         private void LoadCredits(LogEvent e)
         {
-            if (e is LoadGame LoadGame) { Credits = LoadGame.Credits ?? 0; }
+            switch (e)
+            {
+                case LoadGame loadGame:
+                    Credits = loadGame.Credits ?? 0;
+                    break;
+            }
             LabelCredits.Text = Credits.ToString("n0", CultureInfo.InvariantCulture) + " CR";
         }
 
@@ -541,30 +552,85 @@ namespace EDMonitor.UserInterfaces
         {
             long gain = 0;
             string description = "";
-            if (e is Bounty bounty) { gain = bounty.TotalReward ?? 0; description = "Bounty - " + bounty.Description; }
-            if (e is CapShipBond capShipBond) { gain = capShipBond.Reward ?? 0; description = "Cap Ship Bond - " + capShipBond.Description; }
-            if (e is CommunityGoalReward communityGoalReward) { gain = communityGoalReward.Reward ?? 0; description = "Community Goal Reward - " + communityGoalReward.Description; }
-            if (e is DatalinkVoucher datalinkVoucher) { gain = datalinkVoucher.Reward ?? 0; description = "Datalink Voucher - " + datalinkVoucher.Description; }
-            if (e is FactionKillBond factionKillBond) { gain = factionKillBond.Reward ?? 0; description = "Faction Kill Bond - " + factionKillBond.Description; }
-            if (e is MarketSell marketSell) { gain = marketSell.TotalSale ?? 0; description = "Market Sell - " + marketSell.Description; }
-            if (e is MissionCompleted missionCompleted)
+            switch (e)
             {
-                if (missionCompleted.Reward.HasValue)
-                {
-                    gain = (long)missionCompleted.Reward;
-                }
-                else if (missionCompleted.Donated.HasValue)
-                {
-                    gain = -(long)missionCompleted.Donated;
-                }
-                description = "Mission Completed - " + missionCompleted.Description;
+                case Bounty bounty:
+                    gain = bounty.TotalReward ?? 0;
+                    description = "Bounty - " + bounty.Description;
+                    break;
+
+                case CapShipBond capShipBond:
+                    gain = capShipBond.Reward ?? 0;
+                    description = "Cap Ship Bond - " + capShipBond.Description;
+                    break;
+
+                case CommunityGoalReward communityGoalReward:
+                    gain = communityGoalReward.Reward ?? 0;
+                    description = "Community Goal Reward - " + communityGoalReward.Description;
+                    break;
+
+                case DatalinkVoucher datalinkVoucher:
+                    gain = datalinkVoucher.Reward ?? 0;
+                    description = "Datalink Voucher - " + datalinkVoucher.Description;
+                    break;
+
+                case FactionKillBond factionKillBond:
+                    gain = factionKillBond.Reward ?? 0;
+                    description = "Faction Kill Bond - " + factionKillBond.Description;
+                    break;
+
+                case MarketSell marketSell:
+                    gain = marketSell.TotalSale ?? 0;
+                    description = "Market Sell - " + marketSell.Description;
+                    break;
+
+                case MissionCompleted missionCompleted:
+                    if (missionCompleted.Reward.HasValue)
+                    {
+                        gain = (long)missionCompleted.Reward;
+                    }
+                    else if (missionCompleted.Donated.HasValue)
+                    {
+                        gain = -(long)missionCompleted.Donated;
+                    }
+                    description = "Mission Completed - " + missionCompleted.Description;
+                    break;
+
+                case ModuleSell moduleSell:
+                    gain = moduleSell.SellPrice ?? 0;
+                    description = "Module Sell - " + moduleSell.Description;
+                    break;
+
+                case ModuleSellRemote moduleSellRemote:
+                    gain = moduleSellRemote.SellPrice ?? 0;
+                    description = "Module Sell Remote - " + moduleSellRemote.Description;
+                    break;
+
+                case MultiSellExplorationData multiSellExplorationData:
+                    gain = multiSellExplorationData.TotalEarnings ?? 0;
+                    description = "Multi Sell Exploration Data - " + multiSellExplorationData.Description;
+                    break;
+
+                case RedeemVoucher redeemVoucher:
+                    gain = redeemVoucher.Amount ?? 0;
+                    description = "Redeem Voucher - " + redeemVoucher.Description;
+                    break;
+
+                case SellExplorationData sellExplorationData:
+                    gain = sellExplorationData.TotalEarnings ?? 0;
+                    description = "Sell Exploration Data - " + sellExplorationData.Description;
+                    break;
+
+                case ShipyardSell shipyardSell:
+                    gain = shipyardSell.ShipPrice ?? 0;
+                    description = "Shipyard Sell - " + shipyardSell.Description;
+                    break;
+
+                case PayBounties payBounties:
+                    gain = payBounties.Amount ?? 0;
+                    description = payBounties.Description;
+                    break;
             }
-            if (e is ModuleSell moduleSell) { gain = moduleSell.SellPrice ?? 0; description = "Module Sell - " + moduleSell.Description; }
-            if (e is ModuleSellRemote moduleSellRemote) { gain = moduleSellRemote.SellPrice ?? 0; description = "Module Sell Remote - " + moduleSellRemote.Description; }
-            if (e is MultiSellExplorationData multiSellExplorationData) { gain = multiSellExplorationData.TotalEarnings ?? 0; description = "Multi Sell Exploration Data - " + multiSellExplorationData.Description; }
-            if (e is RedeemVoucher redeemVoucher) { gain = redeemVoucher.Amount ?? 0; description = "Redeem Voucher - " + redeemVoucher.Description; }
-            if (e is SellExplorationData sellExplorationData) { gain = sellExplorationData.TotalEarnings ?? 0; description = "Sell Exploration Data - " + sellExplorationData.Description; }
-            if (e is ShipyardSell shipyardSell) { gain = shipyardSell.ShipPrice ?? 0; description = "Shipyard Sell - " + shipyardSell.Description; }
             Credits += gain;
             WalletItem walletItem = new WalletItem
             {
@@ -581,21 +647,78 @@ namespace EDMonitor.UserInterfaces
         {
             long lose = 0;
             string description = "";
-            if (e is BuyAmmo buyAmmo) { lose = buyAmmo.Cost ?? 0; description = "Buy Ammo"; }
-            if (e is BuyDrones buyDrones) { lose = buyDrones.TotalCost ?? 0; description = "Buy Drones - " + buyDrones.Description; }
-            if (e is BuyExplorationData buyExplorationData) { lose = buyExplorationData.Cost ?? 0; description = "Buy Exploration Data - " + buyExplorationData.Description; }
-            if (e is BuyTradeData buyTradeData) { lose = buyTradeData.Cost ?? 0; description = "Buy Trade Data - " + buyTradeData.Description; }
-            if (e is FetchRemoteModule fetchRemoteModule) { lose = fetchRemoteModule.TransferCost ?? 0; description = "Fetch Remote Module - " + fetchRemoteModule.Description; }
-            if (e is MarketBuy marketBuy) { lose = marketBuy.TotalCost ?? 0; description = "Market Buy - " + marketBuy.Description; }
-            if (e is ModuleBuy moduleBuy) { lose = moduleBuy.BuyPrice ?? 0; Credits += moduleBuy.SellPrice ?? 0; description = "Module Buy - " + moduleBuy.Description; }
-            if (e is PayFines payFines) { lose = payFines.Amount ?? 0; description = "Pay Fines - " + payFines.Description; }
-            if (e is RefuelAll refuelAll) { lose = refuelAll.Cost ?? 0; description = "Refuel All"; }
-            if (e is Repair repair) { lose = repair.Cost ?? 0; description = "Repair - " + repair.Description; }
-            if (e is RepairAll repairAll) { lose = repairAll.Cost ?? 0; description = "Repair All"; }
-            if (e is Resurrect resurrect) { lose = resurrect.Cost ?? 0; description = "Resurrect"; }
-            if (e is ShipyardBuy shipyardBuy) { lose = shipyardBuy.ShipPrice ?? 0; description = "Shipyard Buy - " + shipyardBuy.Description; }
-            if (e is ShipyardTransfer shipyardTransfer) { lose = shipyardTransfer.TransferPrice ?? 0; description = "Shipyard Transfer - " + shipyardTransfer.Description; }
-            if (e is SquadronCreated) { lose = 10000000; description = "Squadron Created"; }
+            switch (e)
+            {
+                case BuyAmmo buyAmmo:
+                    lose = buyAmmo.Cost ?? 0;
+                    description = "Buy Ammo";
+                    break;
+                case BuyDrones buyDrones:
+                    lose = buyDrones.TotalCost ?? 0;
+                    description = "Buy Drones - " + buyDrones.Description;
+                    break;
+                case BuyExplorationData buyExplorationData:
+                    lose = buyExplorationData.Cost ?? 0;
+                    description = "Buy Exploration Data - " + buyExplorationData.Description;
+                    break;
+                case BuyTradeData buyTradeData:
+                    lose = buyTradeData.Cost ?? 0;
+                    description = "Buy Trade Data - " + buyTradeData.Description;
+                    break;
+                case FetchRemoteModule fetchRemoteModule:
+                    lose = fetchRemoteModule.TransferCost ?? 0;
+                    description = "Fetch Remote Module - " + fetchRemoteModule.Description;
+                    break;
+                case MarketBuy marketBuy:
+                    lose = marketBuy.TotalCost ?? 0;
+                    description = "Market Buy - " + marketBuy.Description;
+                    break;
+                case ModuleBuy moduleBuy:
+                    lose = moduleBuy.BuyPrice ?? 0;
+                    Credits += moduleBuy.SellPrice ?? 0;
+                    description = "Module Buy - " + moduleBuy.Description;
+                    break;
+                case PayFines payFines:
+                    lose = payFines.Amount ?? 0;
+                    description = "Pay Fines - " + payFines.Description;
+                    break;
+                case RefuelAll refuelAll:
+                    lose = refuelAll.Cost ?? 0;
+                    description = "Refuel All";
+                    break;
+                case Repair repair:
+                    lose = repair.Cost ?? 0;
+                    description = "Repair - " + repair.Description;
+                    break;
+                case RepairAll repairAll:
+                    lose = repairAll.Cost ?? 0;
+                    description = "Repair All";
+                    break;
+                case Resurrect resurrect:
+                    lose = resurrect.Cost ?? 0;
+                    description = "Resurrect";
+                    break;
+                case ShipyardBuy shipyardBuy:
+                    lose = shipyardBuy.ShipPrice ?? 0;
+                    description = "Shipyard Buy - " + shipyardBuy.Description;
+                    break;
+                case ShipyardTransfer shipyardTransfer:
+                    lose = shipyardTransfer.TransferPrice ?? 0;
+                    description = "Shipyard Transfer - " + shipyardTransfer.Description;
+                    break;
+                case SquadronCreated _:
+                    lose = 10000000;
+                    description = "Squadron Created";
+                    break;
+                case RefuelPartial refuelPartial:
+                    lose = refuelPartial.Cost ?? 0;
+                    description = "Refuel - " + refuelPartial.Description;
+                    break; 
+                case RestockVehicle restockVehicle:
+                    lose = restockVehicle.Cost ?? 0;
+                    description = "Restock " + restockVehicle.Count.ToString() + " Vehicle" + (restockVehicle.Count > 1 ? "s" : "");
+                    break;
+            }
             Credits -= lose;
             WalletItem walletItem = new WalletItem
             {
@@ -914,7 +1037,7 @@ namespace EDMonitor.UserInterfaces
                         case "DiscoveryScan": logEvent = JsonConvert.DeserializeObject<DiscoveryScan>(x); break;
                         case "Scan": logEvent = JsonConvert.DeserializeObject<Scan>(x); break;
                         case "FSSAllBodiesFound": logEvent = JsonConvert.DeserializeObject<FSSAllBodiesFound>(x); break;
-                        case "FSSBodySignals": logEvent = JsonConvert.DeserializeObject<FSSBodySignals>(x); break;
+                        case "FSSBodySignals": logEvent = JsonConvert.DeserializeObject<FSSBodySignals>(x); break;
                         case "FSSDiscoveryScan": logEvent = JsonConvert.DeserializeObject<FSSDiscoveryScan>(x); break;
                         case "FSSSignalDiscovered": logEvent = JsonConvert.DeserializeObject<FSSSignalDiscovered>(x); break;
                         case "MaterialCollected": logEvent = JsonConvert.DeserializeObject<MaterialCollected>(x); break;
@@ -946,21 +1069,21 @@ namespace EDMonitor.UserInterfaces
                         case "CommunityGoalDiscard": logEvent = JsonConvert.DeserializeObject<CommunityGoalDiscard>(x); break;
                         case "CommunityGoalJoin": logEvent = JsonConvert.DeserializeObject<CommunityGoalJoin>(x); break;
                         case "CommunityGoalReward": logEvent = JsonConvert.DeserializeObject<CommunityGoalReward>(x); break;
-                        //case "CrewAssign": logEvent = JsonConvert.DeserializeObject<CrewAssign>(x); break;
-                        //case "CrewFire": logEvent = JsonConvert.DeserializeObject<CrewFire>(x); break;
-                        //case "CrewHire": logEvent = JsonConvert.DeserializeObject<CrewHire>(x); break;
+                        case "CrewAssign": logEvent = JsonConvert.DeserializeObject<CrewAssign>(x); break;
+                        case "CrewFire": logEvent = JsonConvert.DeserializeObject<CrewFire>(x); break;
+                        case "CrewHire": logEvent = JsonConvert.DeserializeObject<CrewHire>(x); break;
                         case "EngineerContribution": logEvent = JsonConvert.DeserializeObject<EngineerContribution>(x); break;
                         case "EngineerCraft": logEvent = JsonConvert.DeserializeObject<EngineerCraft>(x); break;
-                        //case "EngineerLegacyConvert": logEvent = JsonConvert.DeserializeObject<EngineerLegacyConvert>(x); break;
+                        case "EngineerLegacyConvert": logEvent = JsonConvert.DeserializeObject<EngineerLegacyConvert>(x); break;
                         case "EngineerProgress": logEvent = JsonConvert.DeserializeObject<EngineerProgress>(x); break;
                         case "FetchRemoteModule": logEvent = JsonConvert.DeserializeObject<FetchRemoteModule>(x); break;
                         case "Market": logEvent = JsonConvert.DeserializeObject<Market>(x); break;
-                        //case "MassModuleStore": logEvent = JsonConvert.DeserializeObject<MassModuleStore>(x); break;
+                        case "MassModuleStore": logEvent = JsonConvert.DeserializeObject<MassModuleStore>(x); break;
                         case "MaterialTrade": logEvent = JsonConvert.DeserializeObject<MaterialTrade>(x); break;
                         case "MissionAbandoned": logEvent = JsonConvert.DeserializeObject<MissionAbandoned>(x); break;
                         case "MissionAccepted": logEvent = JsonConvert.DeserializeObject<MissionAccepted>(x); break;
                         case "MissionCompleted": logEvent = JsonConvert.DeserializeObject<MissionCompleted>(x); break;
-                        //case "MissionFailed": logEvent = JsonConvert.DeserializeObject<MissionFailed>(x); break;
+                        case "MissionFailed": logEvent = JsonConvert.DeserializeObject<MissionFailed>(x); break;
                         case "MissionRedirected": logEvent = JsonConvert.DeserializeObject<MissionRedirected>(x); break;
                         case "ModuleBuy": logEvent = JsonConvert.DeserializeObject<ModuleBuy>(x); break;
                         case "ModuleRetrieve": logEvent = JsonConvert.DeserializeObject<ModuleRetrieve>(x); break;
@@ -969,16 +1092,16 @@ namespace EDMonitor.UserInterfaces
                         case "ModuleStore": logEvent = JsonConvert.DeserializeObject<ModuleStore>(x); break;
                         case "ModuleSwap": logEvent = JsonConvert.DeserializeObject<ModuleSwap>(x); break;
                         case "Outfitting": logEvent = JsonConvert.DeserializeObject<Outfitting>(x); break;
-                        //case "PayBounties": logEvent = JsonConvert.DeserializeObject<PayBounties>(x); break;
+                        case "PayBounties": logEvent = JsonConvert.DeserializeObject<PayBounties>(x); break;
                         case "PayFines": logEvent = JsonConvert.DeserializeObject<PayFines>(x); break;
-                        //case "PayLegacyFines": logEvent = JsonConvert.DeserializeObject<PayLegacyFines>(x); break;
+                        case "PayLegacyFines": logEvent = JsonConvert.DeserializeObject<PayLegacyFines>(x); break;
                         case "RedeemVoucher": logEvent = JsonConvert.DeserializeObject<RedeemVoucher>(x); break;
                         case "RefuelAll": logEvent = JsonConvert.DeserializeObject<RefuelAll>(x); break;
-                        //case "RefuelPartial": logEvent = JsonConvert.DeserializeObject<RefuelPartial>(x); break;
+                        case "RefuelPartial": logEvent = JsonConvert.DeserializeObject<RefuelPartial>(x); break;
                         case "Repair": logEvent = JsonConvert.DeserializeObject<Repair>(x); break;
                         case "RepairAll": logEvent = JsonConvert.DeserializeObject<RepairAll>(x); break;
-                        //case "RestockVehicle": logEvent = JsonConvert.DeserializeObject<RestockVehicle>(x); break;
-                        //case "ScientificResearch": logEvent = JsonConvert.DeserializeObject<ScientificResearch>(x); break;
+                        case "RestockVehicle": logEvent = JsonConvert.DeserializeObject<RestockVehicle>(x); break;
+                        case "ScientificResearch": logEvent = JsonConvert.DeserializeObject<ScientificResearch>(x); break;
                         //case "SearchAndRescue": logEvent = JsonConvert.DeserializeObject<SearchAndRescue>(x); break;
                         //case "SellDrones": logEvent = JsonConvert.DeserializeObject<SellDrones>(x); break;
                         //case "SellShipOnRebuy": logEvent = JsonConvert.DeserializeObject<SellShipOnRebuy>(x); break;
@@ -1248,9 +1371,11 @@ namespace EDMonitor.UserInterfaces
                     case "Background":
                         SaveSetting(configuration, "Background", "#303030");
                         return "#303030";
+
                     case "Foreground":
                         SaveSetting(configuration, "Background", "#0577D2");
                         return "#0577D2";
+
                     default:
                         return null;
                 }
